@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Danh sách</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<h1>Quản lý dữ liệu</h1>
+
+<!-- SEARCH + FILTER -->
+<form method="GET" action="/">
+  <input 
+    type="text" 
+    name="keyword" 
+    placeholder="Tìm theo tên..." 
+    value="<%= keyword %>"
+  >
+
+  <select name="status">
+    <option value="All">Tất cả</option>
+    <option value="Upcoming" <%= status === "Upcoming" ? "selected" : "" %>>Upcoming</option>
+    <option value="Sold" <%= status === "Sold" ? "selected" : "" %>>Sold</option>
+    <option value="Cancelled" <%= status === "Cancelled" ? "selected" : "" %>>Cancelled</option>
+  </select>
+
+  <button type="submit">Tìm</button>
+</form>
+
+<br>
+
+<a href="/add">
+  <button>+ Thêm mới</button>
+</a>
+
+<br><br>
+
+<table border="1" cellpadding="8" cellspacing="0">
+  <tr>
+    <th>ID</th>
+    <th>Sự kiện</th>
+    <th>Người sở hữu</th>
+    <th>Loại</th>
+    <th>Số lượng</th>
+    <th>Giá</th>
+    <th>Ngày</th>
+    <th>Status</th>
+    <th>Ảnh</th>
+    <th>Tổng tiền</th>
+    <th>Final</th>
+    <th>Giảm giá</th>
+    <th>Action</th>
+  </tr>
+
+  <% if (items.length === 0) { %>
+    <tr>
+      <td colspan="13">Không có dữ liệu</td>
+    </tr>
+  <% } %>
+
+  <% items.forEach(item => { %>
+    <tr>
+      <td><%= item.itemId || item.ticketId %></td>
+      <td><%= item.eventName %></td>
+      <td><%= item.holderName %></td>
+      <td><%= item.category %></td>
+      <td><%= item.quantity %></td>
+      <td><%= item.pricePerTicket %></td>
+      <td><%= item.eventDate %></td>
+      <td><%= item.status %></td>
+
+      <td>
+        <% if (item.imageUrl) { %>
+          <img src="<%= item.imageUrl %>" width="80">
+        <% } %>
+      </td>
+
+      <td><%= item.totalAmount || 0 %></td>
+      <td><%= item.finalAmount || 0 %></td>
+
+      <td>
+        <% if (item.isDiscount) { %>
+          <span style="color: green;">Được giảm</span>
+        <% } else { %>
+          <span style="color: red;">Không giảm</span>
+        <% } %>
+      </td>
+
+      <td>
+        <a href="/edit/<%= item.itemId || item.ticketId %>">Sửa</a>
+
+        <form action="/delete/<%= item.itemId || item.ticketId %>" method="POST" style="display:inline;">
+          <button onclick="return confirm('Xóa?')">Xóa</button>
+        </form>
+      </td>
+    </tr>
+  <% }) %>
+</table>
+
+</body>
+</html>

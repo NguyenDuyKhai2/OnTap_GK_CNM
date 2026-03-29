@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Form</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<h1>
+  <%= item ? "Cập nhật" : "Thêm mới" %>
+</h1>
+
+<!-- ERROR -->
+<% if (error) { %>
+  <p style="color:red;"><%= error %></p>
+<% } %>
+
+<form 
+  action="<%= item ? '/edit/' + (item.itemId || item.ticketId) : '/add' %>" 
+  method="POST" 
+  enctype="multipart/form-data"
+>
+
+  <!-- ID -->
+  <!-- <% if (item) { %> -->
+    <!-- Hidden field để gửi ticketId khi cập nhật -->
+    <!-- <input type="hidden" name="ticketId" value="<%= item.ticketId %>"> -->
+  <!-- <% } else { %>
+    <input type="text" name="ticketId" placeholder="Mã (optional)">
+  <% } %> -->
+    <% if(!item) { %> <input type ="text" name ="ticketId" placeholder="Mã (option)"> <%} %> 
+  <br><br>
+
+  <!-- EVENT NAME -->
+  <input 
+    type="text" 
+    name="eventName" 
+    placeholder="Tên sự kiện"
+    value="<%= item?.eventName || '' %>"
+  >
+
+  <br><br>
+
+  <!-- HOLDER -->
+  <input 
+    type="text" 
+    name="holderName" 
+    placeholder="Người sở hữu"
+    value="<%= item?.holderName || '' %>"
+  >
+
+  <br><br>
+
+  <!-- CATEGORY -->
+  <select name="category">
+    <option value="">-- Chọn loại vé --</option>
+    <option value="Standard" <%= item?.category === "Standard" ? "selected" : "" %>>Standard</option>
+    <option value="VIP" <%= item?.category === "VIP" ? "selected" : "" %>>VIP</option>
+    <option value="VVIP" <%= item?.category === "VVIP" ? "selected" : "" %>>VVIP</option>
+  </select>
+
+  <br><br>
+
+  <!-- QUANTITY -->
+  <input 
+    type="number" 
+    name="quantity" 
+    placeholder="Số lượng"
+    value="<%= item?.quantity || '' %>"
+  >
+
+  <br><br>
+
+  <!-- PRICE -->
+  <input 
+    type="number" 
+    name="pricePerTicket" 
+    placeholder="Giá vé"
+    value="<%= item?.pricePerTicket || '' %>"
+  >
+
+  <br><br>
+
+  <!-- DATE -->
+  <input 
+    type="date" 
+    name="eventDate"
+    value="<%= item?.eventDate || '' %>"
+  >
+
+  <br><br>
+
+  <!-- STATUS -->
+  <select name="status">
+    <option value="">-- Trạng thái --</option>
+    <option value="Upcoming" <%= item?.status === "Upcoming" ? "selected" : "" %>>Upcoming</option>
+    <option value="Sold" <%= item?.status === "Sold" ? "selected" : "" %>>Sold</option>
+    <option value="Cancelled" <%= item?.status === "Cancelled" ? "selected" : "" %>>Cancelled</option>
+  </select>
+
+  <br><br>
+
+  <!-- IMAGE -->
+  <input type="file" name="image">
+
+  <% if (item?.imageUrl) { %>
+    <br>
+    <img src="<%= item.imageUrl %>" width="120">
+  <% } %>
+
+  <br><br>
+
+  <button type="submit">
+    <%= item ? "Cập nhật" : "Thêm mới" %>
+  </button>
+
+</form>
+
+<br>
+
+<a href="/">⬅ Quay lại</a>
+
+</body>
+</html>

@@ -5,8 +5,8 @@ const { DynamoDBDocument } = require("@aws-sdk/lib-dynamodb");
 const info = {
     region : "ap-southeast-1",
     credentials : {
-        accessKeyId : "AKIAQQD2ETBBYAT3TGEJ",
-        secretAccessKey : "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",
+        accessKeyId : "",
+        secretAccessKey : "",
     },
 };
 
